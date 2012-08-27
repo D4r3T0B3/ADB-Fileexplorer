@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -21,12 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import data.DataReciever;
-import data.FileObj;
 import data.LanguageStrings;
 import data.Logger;
 
@@ -36,14 +29,12 @@ public class Explorer extends Frame
 	 * 
 	 */
 	private static final long serialVersionUID = 5908837654492782371L;
-	private DefaultTableModel model;
-	private Label dirLabel;
 	private List deviceList;
 	private static DataReciever reciever;
-	private Panel filePanel;
-	private JTable adbFileTable;
+	private final FilePanel filePanel;
 	private Logger logger;
 	private TextField connectField, destination, source;
+	
 	
 	
 	public Explorer()
@@ -52,89 +43,7 @@ public class Explorer extends Frame
 		logger = new Logger(logList);		
 		reciever = new DataReciever();
 		
-		
-		
-		dirLabel = new Label();
-		Button backButton = new Button(LanguageStrings.getProperty("backButton"));
-		backButton.addActionListener(new ActionListener() 
-		{	
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				String dir = dirLabel.getText();
-				String[] split = dir.split("/");
-				if(split.length > 1)
-				{
-					String value = "";
-					for(int i = 0; i < split.length-1; i++)
-					{
-						value += split[i] + "/";
-					}
-					updateADB(reciever.getDirContent(value), value);
-				}
-				else
-				{
-					updateADB(reciever.getDirContent("/"), "/");
-				}
-			}
-		});
-		
-
-
-		
-		
-		model = new MyTableModel();
-		model.addColumn(LanguageStrings.getProperty("filenameString"));
-		model.addColumn(LanguageStrings.getProperty("sizeString"));
-		model.addColumn(LanguageStrings.getProperty("lastEditString"));
-		
-		adbFileTable = new JTable(model);
-		adbFileTable.setColumnSelectionAllowed(false);
-		adbFileTable.setAutoCreateRowSorter(true); //wrong selection after sorting
-				
-		adbFileTable.addMouseListener(new MouseListener() 
-		{			
-			@Override
-			public void mouseReleased(MouseEvent e) {}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-				boolean left = ( e.getButton() == MouseEvent.BUTTON1 );   
-//			    boolean middle = ( e.getButton() == MouseEvent.BUTTON2) ;  
-//			    boolean right = ( e.getButton() == MouseEvent.BUTTON3 ); //context menu?
-			    boolean doubleClick = e.getClickCount() > 1;   
-				
-				if(left && doubleClick)
-				{
-					adbFileTable.repaint();
-					String value = (String) model.getValueAt(adbFileTable.convertRowIndexToModel(adbFileTable.getSelectedRow()) , 0);
-					
-					if(value.contains("->"))
-					{
-						String[] split = value.split(" ");
-						value = split[2];
-					}
-					else
-					{
-						value = dirLabel.getText() + value + "/";
-					}
-					updateADB(reciever.getDirContent(value), value);						
-				}
-			}
-		});
-
-		JScrollPane fileTableScrollPane = new JScrollPane(adbFileTable);	
-		
+		filePanel = new FilePanel(reciever);
 		
 		deviceList = new List();
 		deviceList.addItemListener(new ItemListener() 
@@ -146,7 +55,7 @@ public class Explorer extends Frame
 				
 				if(reciever.setSelectedDevice(selection))
 				{
-					updateADB(reciever.getDirContent("/"), "/");
+					filePanel.updateADB(reciever.getDirContent("/"), "/");
 				}
 			}
 		});
@@ -211,8 +120,8 @@ public class Explorer extends Frame
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				String selection = (String)model.getValueAt(adbFileTable.convertRowIndexToModel(adbFileTable.getSelectedRow()) , 0); 
-				reciever.pullFile(dirLabel.getText() + selection);
+				String selection = (String)filePanel.getFileTableModel().getValueAt(filePanel.getTable().convertRowIndexToModel(filePanel.getTable().getSelectedRow()) , 0); 
+				reciever.pullFile(filePanel.getDirLabel().getText() + selection);
 				try
 				{
 					new ProcessBuilder("explorer", reciever.getSaveLocation() + selection).start();
@@ -258,8 +167,8 @@ public class Explorer extends Frame
 			{
 				if(source.getText() != null && source.getText().length() > 0)
 				{
-					reciever.pushFile(source.getText(), dirLabel.getText());
-					updateADB(reciever.getDirContent(dirLabel.getText()), dirLabel.getText());
+					reciever.pushFile(source.getText(), filePanel.getDirLabel().getText());
+					filePanel.updateADB(reciever.getDirContent(filePanel.getDirLabel().getText()), filePanel.getDirLabel().getText());
 				}
 				else
 				{
@@ -275,24 +184,12 @@ public class Explorer extends Frame
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				reciever.deleteFile(dirLabel.getText() + model.getValueAt(adbFileTable.convertRowIndexToModel(adbFileTable.getSelectedRow()) , 0));
-				updateADB(reciever.getDirContent(dirLabel.getText()), dirLabel.getText());
+				reciever.deleteFile(filePanel.getDirLabel().getText() +
+						filePanel.getFileTableModel().getValueAt(filePanel.getTable().convertRowIndexToModel(filePanel.getTable().getSelectedRow()) , 0));
+				filePanel.updateADB(reciever.getDirContent(filePanel.getDirLabel().getText()), filePanel.getDirLabel().getText());
 			}
 		});
 		
-		
-		
-		Panel backButtonPanel = new Panel(new GridLayout(1,2));
-		backButtonPanel.add(backButton);
-		backButtonPanel.add(new Panel());
-		
-		Panel dirPanel = new Panel(new GridLayout(1,2));
-		dirPanel.add(backButtonPanel);
-		dirPanel.add(dirLabel);
-		
-		filePanel = new Panel(new BorderLayout());
-		filePanel.add(dirPanel, BorderLayout.NORTH);
-		filePanel.add(fileTableScrollPane, BorderLayout.CENTER);
 		
 		
 		Panel refreshLine = new Panel();	
@@ -345,9 +242,10 @@ public class Explorer extends Frame
 		devicePanel.add(sourcePanel);
 		devicePanel.add(logList);
 		
-
+		Menubar menu = new Menubar();
+		menu.setItemState(reciever.getLanguage());
 		
-		this.setMenuBar(new Menubar());
+		this.setMenuBar(menu);
 		this.add(devicePanel);
 		this.add(filePanel);		
 		this.setLayout(new GridLayout(1,3));		
@@ -364,45 +262,6 @@ public class Explorer extends Frame
 		updateDevices(reciever.getDevices(true));
 		
 		
-	}
-	
-	
-	
-	public void updateADB(ArrayList<FileObj> in, String dir)
-	{
-		if(in != null)
-		{
-			dirLabel.setText(dir);
-
-			while(model.getRowCount() > 0)
-			{
-				model.removeRow(0);
-			}
-			for(int i = 0; i < in.size(); i++)
-			{
-				model.addRow(in.get(i).getDataForTable());
-			}
-		}
-		else
-		{
-			openFile(dir);
-		}
-	}
-	
-	private void openFile(String path)
-	{
-		Logger.writeToLog(LanguageStrings.getProperty("pullingLog"));
-		File file = reciever.pullFile(path);
-		
-		try 
-		{			
-			new ProcessBuilder("explorer", file.getAbsolutePath()).start();
-		} 
-		catch (IOException e) 
-		{
-			Logger.writeToLog(LanguageStrings.getProperty("openFailedLog"));
-			e.printStackTrace();
-		}
 	}
 	
 	public void updateDevices(ArrayList<String> in)
@@ -434,23 +293,8 @@ public class Explorer extends Frame
 	{
 		reciever.close();
 		logger.close();
+		
 		System.exit(0);
-	}
-	
-	private class MyTableModel extends DefaultTableModel
-	{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1332744571780301856L;
-
-		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) 
-		{
-			return false;
-		}		
-	}
-	
-	
+	}	
 	
 }

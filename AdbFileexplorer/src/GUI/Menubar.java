@@ -5,7 +5,10 @@ import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
+import main.Start;
 import data.DataReciever;
 import data.LanguageStrings;
 
@@ -34,6 +37,7 @@ public class Menubar extends MenuBar
 		language.add(german);
 		
 		
+		
 		this.add(language);
 	}
 	
@@ -50,22 +54,31 @@ public class Menubar extends MenuBar
 		@Override
 		public void itemStateChanged(ItemEvent e) 
 		{
-			for(int i = 0; i < language.getItemCount(); i++)
+			DataReciever.setLanguageString(new LanguageStrings(languageString));
+			
+			try 
 			{
-				if(language.getItem(i) instanceof CheckboxMenuItem)
-				{
-					CheckboxMenuItem item = (CheckboxMenuItem) language.getItem(i);
-					item.setState(false);
-				}
-			}
-			
-			
-			CheckboxMenuItem source = (CheckboxMenuItem) e.getSource();
-			source.setState(true);
-			DataReciever.setLanguageString(new LanguageStrings(languageString));		
+				Start.restartApplication();
+			} 
+			catch (URISyntaxException e1) 
+			{}
+			catch (IOException e1) 
+			{}
 			
 		}
 		
+	}
+
+	public void setItemState(String languageString)
+	{
+		for(int i = 0; i < language.getItemCount(); i++)
+		{
+			if(language.getItem(i) instanceof CheckboxMenuItem && language.getItem(i).getLabel().toLowerCase() == languageString.toLowerCase())
+			{
+				CheckboxMenuItem item = (CheckboxMenuItem)language.getItem(i);
+				item.setState(true);
+			}
+		}
 	}
 
 }
