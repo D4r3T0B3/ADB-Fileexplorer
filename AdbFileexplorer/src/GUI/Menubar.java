@@ -3,7 +3,6 @@ package GUI;
 import java.awt.CheckboxMenuItem;
 import java.awt.Menu;
 import java.awt.MenuBar;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
