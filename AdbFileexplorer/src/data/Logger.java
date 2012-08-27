@@ -33,7 +33,7 @@ public class Logger
 		}
 		catch(IOException e)
 		{
-			writeLogfile("cant initialize logger - please manually remove logfile and restart this tool");
+			writeLogfile(LanguageStrings.getProperty("loggerFailed"));
 		}
 	}
 	

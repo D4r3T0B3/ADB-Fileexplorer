@@ -22,10 +22,9 @@
 		<entry key="fileOpenFailLog">öffnen fehlgeschlagen</entry>
 		<entry key="deviceConnectedLog"> verbunden</entry>
 		<entry key="adbRootLog">adb wurde als root gestartet</entry>
-		<entry key="probsNotfoundLog">Es wurden keine Einstellungen gefunden. Erstelle neue Einstellungsdatei</entry>
 		<entry key="deleteLog">lösche </entry>
 		<entry key="deleteFailedLog">löschen fehlgeschlagen </entry>
-		<entry key="devicesLog"> Geräte gefunden</entry>
+		<entry key="devicesLog"> Gerät(e) gefunden</entry>
 		<entry key="pullingLog">lade Datei....</entry>
 		<entry key="openFailedLog">das Öffnen der Datei ist fehlgeschlagen</entry>
 		<entry key="pullFromToLog"> kopiert nach </entry>
@@ -33,4 +32,5 @@
 		<entry key="pushedFromToLog"> kopiert nach </entry>
 		<entry key="pushFailedLog">der push ist fehlgeschlagen </entry>
 		<entry key="propertiesFailedLong">Das Speichern der Einstellungen ist fehlgeschlagen</entry>
+		<entry key="loggerFailed">Der Start des Loggers ist fehlgeschlagen. Entferne die logfiles und starte das Tool neu</entry>
 	</properties>

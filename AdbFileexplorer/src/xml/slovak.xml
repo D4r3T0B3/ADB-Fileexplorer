@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+	<properties>  
+		<!-- Buttons -->
+		<entry key="backButton">Spä</entry>
+		<entry key="connectButton">Pripoji</entry>
+		<entry key="refreshButton">Obnovi</entry>
+		<entry key="chooseDestButton">Vyber umiestnenie</entry>
+		<entry key="pullButton">Stiahni</entry>
+		<entry key="chooseSourceButton">Vyber súbo</entry>
+		<entry key="pushButton">Vlož súbory</entry>
+		<entry key="deleteButton">Zmaž vybrané súbory</entry>
+		<!-- Strings -->
+		<entry key="pullDestString">Miesto uloženia:</entry>
+		<entry key="pushSourceString">Zdroj súborov na vtlaèenie:</entry>
+		<entry key="filenameString">Názov súboru</entry>
+		<entry key="sizeString">Ve¾kos</entry>
+		<entry key="lastEditString">Posledná zmena</entry>
+		<!-- logs --> 
+		<entry key="selectSourceLog">Prosím vyber platný zdroj súborov na vloženie</entry>
+		<entry key="destSetLog"> - nastav ako miesto uloženia</entry>
+		<entry key="fileOpenFailLog">nebolo možné otvori súbor/adresár</entry>
+		<entry key="deviceConnectedLog">  pripojené</entry>
+		<entry key="adbRootLog">adb spustené ako root</entry>
+		<entry key="deleteLog">odstraòujem </entry>
+		<entry key="deleteFailedLog">nebolo možné odstráni </entry>
+		<entry key="devicesLog">  zariadenie nájdené</entry>
+		<entry key="pullingLog">vyahujem súbor....</entry>
+		<entry key="openFailedLog">nie je možné otvori súbor</entry>
+		<entry key="pullFromToLog"> stiahnuté do </entry>
+		<entry key="pullFailedLog">nebolo možné stiahnu </entry>
+		<entry key="pushedFromToLog"> vložené do </entry>
+		<entry key="pushFailedLog">nebolo možné vloži </entry>
+		<entry key="propertiesFailedLong">nebolo možné uloži nastavenia</entry>
+		<entry key="loggerFailed">nie je monι spusti logger - prosνm manuαlne odstrαςte sϊbor log a retartujte nαstroj</entry>
+	</properties>

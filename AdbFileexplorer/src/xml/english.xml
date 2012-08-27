@@ -22,7 +22,6 @@
 		<entry key="fileOpenFailLog">failed to open file/directory</entry>
 		<entry key="deviceConnectedLog"> connected</entry>
 		<entry key="adbRootLog">adb started as root</entry>
-		<entry key="probsNotfoundLog">propertie file not found. Creating new one</entry>
 		<entry key="deleteLog">deleting </entry>
 		<entry key="deleteFailedLog">failed to delete </entry>
 		<entry key="devicesLog"> devices found</entry>
@@ -33,4 +32,5 @@
 		<entry key="pushedFromToLog"> pushed to </entry>
 		<entry key="pushFailedLog">failed to push </entry>
 		<entry key="propertiesFailedLong">failed to save properties</entry>
+		<entry key="loggerFailed">cant initialize logger - please manually remove logfile and restart this tool</entry>
 	</properties>

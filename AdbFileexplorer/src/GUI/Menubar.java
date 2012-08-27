@@ -33,8 +33,12 @@ public class Menubar extends MenuBar
 		CheckboxMenuItem german = new CheckboxMenuItem("German");
 		german.addItemListener(new LanguageItemListener("german"));
 		
+		CheckboxMenuItem slovak = new CheckboxMenuItem("Slovak");
+		slovak.addItemListener(new LanguageItemListener("slovak"));
+		
 		language.add(english);
 		language.add(german);
+		language.add(slovak);
 		
 		
 		
