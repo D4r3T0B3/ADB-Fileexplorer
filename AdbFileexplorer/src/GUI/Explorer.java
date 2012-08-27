@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 import data.DataReciever;
 import data.FileObj;
+import data.LanguageStrings;
 import data.Logger;
 
 public class Explorer extends Frame
@@ -38,11 +39,12 @@ public class Explorer extends Frame
 	private DefaultTableModel model;
 	private Label dirLabel;
 	private List deviceList;
-	private DataReciever reciever;
+	private static DataReciever reciever;
 	private Panel filePanel;
 	private JTable adbFileTable;
 	private Logger logger;
 	private TextField connectField, destination, source;
+	
 	
 	public Explorer()
 	{
@@ -50,9 +52,10 @@ public class Explorer extends Frame
 		logger = new Logger(logList);		
 		reciever = new DataReciever();
 		
-				
+		
+		
 		dirLabel = new Label();
-		Button backButton = new Button("Back");
+		Button backButton = new Button(LanguageStrings.getProperty("backButton"));
 		backButton.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -81,9 +84,9 @@ public class Explorer extends Frame
 		
 		
 		model = new MyTableModel();
-		model.addColumn("Filename");
-		model.addColumn("Size");
-		model.addColumn("last edit");
+		model.addColumn(LanguageStrings.getProperty("filenameString"));
+		model.addColumn(LanguageStrings.getProperty("sizeString"));
+		model.addColumn(LanguageStrings.getProperty("lastEditString"));
 		
 		adbFileTable = new JTable(model);
 		adbFileTable.setColumnSelectionAllowed(false);
@@ -149,7 +152,7 @@ public class Explorer extends Frame
 		});
 		
 		
-		Button refreshButton = new Button("Refresh");
+		Button refreshButton = new Button(LanguageStrings.getProperty("refreshButton"));
 		refreshButton.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -161,7 +164,7 @@ public class Explorer extends Frame
 		
 	
 		connectField = new TextField();
-		Button connectButton = new Button("Connect");
+		Button connectButton = new Button(LanguageStrings.getProperty("connectButton"));
 		connectButton.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -177,7 +180,7 @@ public class Explorer extends Frame
 		destination = new TextField();
 		destination.setText(reciever.getSaveLocation());		
 		
-		Button chooseDestination = new Button("Choose Location");
+		Button chooseDestination = new Button(LanguageStrings.getProperty("chooseDestButton"));
 		chooseDestination.addActionListener(new ActionListener() 
 		{
 			
@@ -192,7 +195,7 @@ public class Explorer extends Frame
 					File loc = fc.getSelectedFile();
 					reciever.setSaveLocation(loc);
 					destination.setText(reciever.getSaveLocation());
-					Logger.writeToLog(loc.getAbsolutePath() + " - set as save destination");
+					Logger.writeToLog(loc.getAbsolutePath() + LanguageStrings.getProperty("destSetLog"));
 				}
 				
 				
@@ -202,7 +205,7 @@ public class Explorer extends Frame
 		
 		
 		
-		Button pull = new Button("Pull");
+		Button pull = new Button(LanguageStrings.getProperty("pullButton"));
 		pull.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -217,7 +220,7 @@ public class Explorer extends Frame
 				catch(IOException ex)
 				{
 					ex.printStackTrace();
-					Logger.writeToLog("failed to open file/directory");
+					Logger.writeToLog(LanguageStrings.getProperty("fileOpenFailLog"));
 				}
 			}
 		});
@@ -227,7 +230,7 @@ public class Explorer extends Frame
 		source = new TextField();
 		source.setSize(500, source.getHeight());
 		
-		Button chooseSource = new Button("Choose File");
+		Button chooseSource = new Button(LanguageStrings.getProperty("chooseSourceButton"));
 		chooseSource.addActionListener(new ActionListener() 
 		{
 			
@@ -247,7 +250,7 @@ public class Explorer extends Frame
 		});
 				
 		
-		Button pushButton = new Button("Push Files");
+		Button pushButton = new Button(LanguageStrings.getProperty("pushButton"));
 		pushButton.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -260,13 +263,13 @@ public class Explorer extends Frame
 				}
 				else
 				{
-					Logger.writeToLog("Please select a valid pull source");
+					Logger.writeToLog(LanguageStrings.getProperty("selectSourceLog"));
 				}
 			}
 		});
 		
 		
-		Button deleteButton = new Button("Delete Selected Files");
+		Button deleteButton = new Button(LanguageStrings.getProperty("deleteButton"));
 		deleteButton.addActionListener(new ActionListener() 
 		{	
 			@Override
@@ -302,7 +305,7 @@ public class Explorer extends Frame
 		Panel connectPanel = new Panel(new BorderLayout());		
 		connectPanel.add(subConnectPanel, BorderLayout.NORTH);
 		connectPanel.add(refreshLine, BorderLayout.EAST);
-		connectPanel.add(new Label("Pull Destination:"), BorderLayout.SOUTH);
+		connectPanel.add(new Label(LanguageStrings.getProperty("pullDestString")), BorderLayout.SOUTH);
 		
 		
 		Panel subSourcePanel = new Panel(new GridLayout(1,2));
@@ -333,7 +336,7 @@ public class Explorer extends Frame
 		Panel destinationPanel = new Panel(new BorderLayout());
 		destinationPanel.add(subDestinationPanel, BorderLayout.NORTH);
 		destinationPanel.add(pullPanel, BorderLayout.EAST);		
-		destinationPanel.add(new Label("Push Source:"), BorderLayout.SOUTH);
+		destinationPanel.add(new Label(LanguageStrings.getProperty("pushSourceString")), BorderLayout.SOUTH);
 		
 		Panel devicePanel = new Panel(new GridLayout(5,1));
 		devicePanel.add(deviceList);
@@ -342,7 +345,9 @@ public class Explorer extends Frame
 		devicePanel.add(sourcePanel);
 		devicePanel.add(logList);
 		
+
 		
+		this.setMenuBar(new Menubar());
 		this.add(devicePanel);
 		this.add(filePanel);		
 		this.setLayout(new GridLayout(1,3));		
@@ -357,6 +362,8 @@ public class Explorer extends Frame
 		this.setTitle("ADB Fileexplorer");
 		this.setVisible(true);
 		updateDevices(reciever.getDevices(true));
+		
+		
 	}
 	
 	
@@ -384,7 +391,7 @@ public class Explorer extends Frame
 	
 	private void openFile(String path)
 	{
-		Logger.writeToLog("pulling file....");
+		Logger.writeToLog(LanguageStrings.getProperty("pullingLog"));
 		File file = reciever.pullFile(path);
 		
 		try 
@@ -393,7 +400,7 @@ public class Explorer extends Frame
 		} 
 		catch (IOException e) 
 		{
-			Logger.writeToLog("failed to open file");
+			Logger.writeToLog(LanguageStrings.getProperty("openFailedLog"));
 			e.printStackTrace();
 		}
 	}
@@ -414,6 +421,13 @@ public class Explorer extends Frame
 			}
 		}
 	}
+	
+	public static DataReciever getReciever()
+	{
+		return reciever;
+	}
+	
+	
 	
 	
 	private void close()
@@ -436,6 +450,7 @@ public class Explorer extends Frame
 			return false;
 		}		
 	}
+	
 	
 	
 }

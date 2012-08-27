@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+	<properties>  
+		<!-- Buttons -->
+		<entry key="backButton">Zurück</entry>
+		<entry key="connectButton">Verbinden</entry>
+		<entry key="refreshButton">Aktualisieren</entry>
+		<entry key="chooseDestButton">Wähle Speicherort</entry>
+		<entry key="pullButton">Pull</entry>
+		<entry key="chooseSourceButton">Wähle Datei</entry>
+		<entry key="pushButton">Push Ausgewählte</entry>
+		<entry key="deleteButton">Lösche ausgewälte Dateien</entry>
+		<!-- Strings -->
+		<entry key="pullDestString">Pull Speicherort</entry>
+		<entry key="pushSourceString">Push Quelle</entry>
+		<entry key="filenameString">Dateiname</entry>
+		<entry key="sizeString">Größe</entry>
+		<entry key="lastEditString">zuletzt geändert</entry>
+		<!-- logs --> 
+		<entry key="selectSourceLog">Bitte wähle eine valide Quelldatei aus</entry>
+		<entry key="destSetLog"> - als Speicherort gewählt</entry>
+		<entry key="fileOpenFailLog">öffnen fehlgeschlagen</entry>
+		<entry key="deviceConnectedLog"> verbunden</entry>
+		<entry key="adbRootLog">adb wurde als root gestartet</entry>
+		<entry key="probsNotfoundLog">Es wurden keine Einstellungen gefunden. Erstelle neue Einstellungsdatei</entry>
+		<entry key="deleteLog">lösche </entry>
+		<entry key="deleteFailedLog">löschen fehlgeschlagen </entry>
+		<entry key="devicesLog"> Geräte gefunden</entry>
+		<entry key="pullingLog">lade Datei....</entry>
+		<entry key="openFailedLog">das Öffnen der Datei ist fehlgeschlagen</entry>
+		<entry key="pullFromToLog"> kopiert nach </entry>
+		<entry key="pullFailedLog">kopieren ist fehlgeschlagen -  </entry>
+		<entry key="pushedFromToLog"> kopiert nach </entry>
+		<entry key="pushFailedLog">der push ist fehlgeschlagen </entry>
+		<entry key="propertiesFailedLong">Das Speichern der Einstellungen ist fehlgeschlagen</entry>
+	</properties>

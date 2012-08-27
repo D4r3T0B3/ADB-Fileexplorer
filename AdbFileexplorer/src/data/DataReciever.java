@@ -18,16 +18,29 @@ public class DataReciever
 	private String selectedDevice = "";
 	private static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yyyy");
 	private File saveLocation; 
-	private Properties probs;
+	private static Properties probs;
+	@SuppressWarnings("unused")
+	private static LanguageStrings language;
 	
 	public DataReciever()
 	{
+		probs = new Properties();
+		try 
+		{
+			probs.load(new FileReader(new File("explorer.proberties")));
+			saveLocation = new File(probs.getProperty("saveLocation"));
+		} 
+		catch (FileNotFoundException e) { /*Logger.writeToLog(LanguageStrings.getProperty("probsNotfoundLog"));*/ setSaveLocation(new File(getSaveLocation()));} 
+		catch (IOException e) {	e.printStackTrace(); }
+		
+		language = new LanguageStrings(getLanguage());
+		
 		BufferedReader reader = null;
 		InputStream processIn = null;
 		try 
 		{	
 			new ProcessBuilder("adb", "root").start();
-			Logger.writeToLog("adb started as root");
+			Logger.writeToLog(LanguageStrings.getProperty("adbRootLog"));
 			
 			Process process = new ProcessBuilder("adb", "version").start();
 			processIn = process.getInputStream();
@@ -54,14 +67,12 @@ public class DataReciever
 			}
 		}
 		
-		probs = new Properties();
-		try 
-		{
-			probs.load(new FileReader(new File("explorer.proberties")));
-			saveLocation = new File(probs.getProperty("saveLocation"));
-		} 
-		catch (FileNotFoundException e) { Logger.writeToLog("propertie file not found. Creating new one"); setSaveLocation(new File(getSaveLocation()));} 
-		catch (IOException e) {	e.printStackTrace(); }
+	}
+	
+	public static void setLanguageString(LanguageStrings in)
+	{
+		language = in;
+		setProperty("language", in.getLanguage());
 	}
 	
 	
@@ -108,7 +119,7 @@ public class DataReciever
 		 }
 		 if(log)
 		 {
-			 Logger.writeToLog(ret.size() + " devices found");
+			 Logger.writeToLog(ret.size() + LanguageStrings.getProperty("devicesLog"));
 		 }
 		 return ret;
 	}
@@ -120,7 +131,7 @@ public class DataReciever
 			try 
 			{
 				new ProcessBuilder("adb", "connect", ip).start();
-				Logger.writeToLog(ip + " connected");
+				Logger.writeToLog(ip + LanguageStrings.getProperty("deviceConnectedLog"));
 			}
 			catch (IOException e) 
 			{
@@ -227,14 +238,14 @@ public class DataReciever
 			
 			Process p = new ProcessBuilder("adb", "-s", selectedDevice, "pull", path, dest).start();
 			p.waitFor();
-			Logger.writeToLog(path + " pulled to " + dest);
+			Logger.writeToLog(path + LanguageStrings.getProperty("pullFromToLog") + dest);
 			
 			return new File(dest + "\\" + splits[splits.length-1]);
 		} 
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			Logger.writeToLog("failed to pull " + path);
+			Logger.writeToLog(LanguageStrings.getProperty("pullFailedLog") + path);
 			Logger.writeToLog(e.getMessage());
 			return null;
 		} catch (InterruptedException e) 
@@ -251,12 +262,12 @@ public class DataReciever
 		{
 			Process process = new ProcessBuilder("adb", "-s", selectedDevice, "push", source, destination).start();
 			process.waitFor();
-			Logger.writeToLog(source + " pushed to " + destination);
+			Logger.writeToLog(source + LanguageStrings.getProperty("pushFailedLog") + destination);
 		}
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			Logger.writeToLog("failed to push " + source);
+			Logger.writeToLog(LanguageStrings.getProperty("propertiesFailedLong") + source);
 			Logger.writeToLog(e.getMessage());
 		}
 		catch (InterruptedException e)
@@ -278,7 +289,7 @@ public class DataReciever
 			String line = reader.readLine();
 			if(line == null)
 			{
-				Logger.writeToLog("deleting " + path);
+				Logger.writeToLog(LanguageStrings.getProperty("deleteLog") + path);
 				Process process = new ProcessBuilder("adb", "-s", selectedDevice, "shell", "rm", path).start();
 				process.waitFor();
 			}
@@ -294,7 +305,7 @@ public class DataReciever
 				}
 				if(filesToDelete.size() == 0)
 				{
-					Logger.writeToLog("deleting " + path);
+					Logger.writeToLog(LanguageStrings.getProperty("deleteLog") + path);
 					Process process = new ProcessBuilder("adb", "-s", selectedDevice, "shell", "rmdir", path).start();
 					process.waitFor();
 					return;
@@ -312,7 +323,7 @@ public class DataReciever
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			Logger.writeToLog("failed to delete " + path);
+			Logger.writeToLog(LanguageStrings.getProperty("deleteFailedLog") + path);
 			Logger.writeToLog(e.getMessage());
 		} 
 		catch (InterruptedException e) 
@@ -339,6 +350,12 @@ public class DataReciever
 	{
 		
 	}
+	
+	public String getLanguage()
+	{
+		return probs.getProperty("language", "english");
+	}
+	
 
 
 	public String getSaveLocation() 
@@ -352,7 +369,12 @@ public class DataReciever
 	public void setSaveLocation(File saveLocation) 
 	{
 		this.saveLocation = saveLocation;
-		probs.setProperty("saveLocation", this.saveLocation.getAbsolutePath());
+		setProperty("saveLocation", this.saveLocation.getAbsolutePath());
+	}	
+	
+	public static void setProperty(String key, String value)
+	{
+		probs.setProperty(key , value);
 		try 
 		{
 			probs.store(new FileWriter(new File("explorer.proberties")), "");
@@ -360,8 +382,8 @@ public class DataReciever
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			Logger.writeToLog("failed to save properties");
+			Logger.writeToLog(LanguageStrings.getProperty("propertiesFailedLong"));
 			Logger.writeToLog(e.getMessage());
 		}
-	}	
+	}
 }

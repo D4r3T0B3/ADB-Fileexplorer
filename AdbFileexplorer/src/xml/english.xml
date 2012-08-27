@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+	<properties>  
+		<!-- Buttons -->
+		<entry key="backButton">Back</entry>
+		<entry key="connectButton">Connect</entry>
+		<entry key="refreshButton">Refresh</entry>
+		<entry key="chooseDestButton">Choose Location</entry>
+		<entry key="pullButton">Pull</entry>
+		<entry key="chooseSourceButton">Choose File</entry>
+		<entry key="pushButton">Push Files</entry>
+		<entry key="deleteButton">Delete Selected Files</entry>
+		<!-- Strings -->
+		<entry key="pullDestString">Pull Destination:</entry>
+		<entry key="pushSourceString">Push Source:</entry>
+		<entry key="filenameString">Filename</entry>
+		<entry key="sizeString">Size</entry>
+		<entry key="lastEditString">Last Modified</entry>
+		<!-- logs --> 
+		<entry key="selectSourceLog">Please select a valid pull source</entry>
+		<entry key="destSetLog"> - set as save destination</entry>
+		<entry key="fileOpenFailLog">failed to open file/directory</entry>
+		<entry key="deviceConnectedLog"> connected</entry>
+		<entry key="adbRootLog">adb started as root</entry>
+		<entry key="probsNotfoundLog">propertie file not found. Creating new one</entry>
+		<entry key="deleteLog">deleting </entry>
+		<entry key="deleteFailedLog">failed to delete </entry>
+		<entry key="devicesLog"> devices found</entry>
+		<entry key="pullingLog">pulling file....</entry>
+		<entry key="openFailedLog">failed to open file</entry>
+		<entry key="pullFromToLog"> pulled to </entry>
+		<entry key="pullFailedLog">failed to pull </entry>
+		<entry key="pushedFromToLog"> pushed to </entry>
+		<entry key="pushFailedLog">failed to push </entry>
+		<entry key="propertiesFailedLong">failed to save properties</entry>
+	</properties>
