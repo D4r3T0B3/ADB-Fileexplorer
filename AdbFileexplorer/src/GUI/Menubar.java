@@ -3,6 +3,9 @@ package GUI;
 import java.awt.CheckboxMenuItem;
 import java.awt.Menu;
 import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
@@ -42,7 +45,23 @@ public class Menubar extends MenuBar
 		
 		
 		
+		Menu about = new Menu("About");
+		
+		MenuItem info = new MenuItem("Info");
+		
+		info.addActionListener(new ActionListener()
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				new AboutDiaglog();
+			}
+		});
+		about.add(info);
+		
+		
 		this.add(language);
+		this.add(about);
 	}
 	
 	

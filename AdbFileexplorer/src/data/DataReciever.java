@@ -21,6 +21,7 @@ public class DataReciever
 	private static Properties probs;
 	@SuppressWarnings("unused")
 	private static LanguageStrings language;
+	public final static double VERSION_NUMBER = 0.3;
 	
 	public DataReciever()
 	{

@@ -37,6 +37,7 @@ public class Explorer extends Frame
 	
 	
 	
+	@SuppressWarnings("static-access")
 	public Explorer()
 	{
 		List logList = new List();
@@ -143,7 +144,6 @@ public class Explorer extends Frame
 		chooseSource.addActionListener(new ActionListener() 
 		{
 			
-			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -257,7 +257,7 @@ public class Explorer extends Frame
 			}
 		});
 		this.setSize(800, 500);
-		this.setTitle("ADB Fileexplorer");
+		this.setTitle("ADB Fileexplorer - v" + reciever.VERSION_NUMBER);
 		this.setVisible(true);
 		updateDevices(reciever.getDevices(true));
 		
