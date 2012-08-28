@@ -79,7 +79,7 @@ public class FilePanel extends Panel
 		
 		adbFileTable = new JTable(model);
 		adbFileTable.setColumnSelectionAllowed(false);
-		adbFileTable.setAutoCreateRowSorter(true); //wrong selection after sorting
+		adbFileTable.setAutoCreateRowSorter(true);
 				
 		adbFileTable.addMouseListener(new MouseListener() 
 		{			

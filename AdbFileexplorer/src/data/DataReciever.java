@@ -178,7 +178,14 @@ public class DataReciever
 					Calendar date = Calendar.getInstance(); 
 					date.setTimeInMillis((lastEdit * 1000));
 					
-					ret.add(new FileObj(split[3], dir, sdf.format(date.getTime()), Long.parseLong(split[1], 16), false, false));					
+					String name = "";
+					
+					for(int i = 27; i < line.length(); i++)
+					{
+						name += line.charAt(i);
+					}
+					
+					ret.add(new FileObj(name, dir, sdf.format(date.getTime()), Long.parseLong(split[1], 16), false, false));					
 				}
 			}
 		} 
